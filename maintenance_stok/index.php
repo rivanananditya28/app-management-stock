@@ -91,7 +91,7 @@
 
                                     // Ambil data hasil query
                                     while ($row = mysqli_fetch_assoc($sql_data)) {
-                                        echo '<option value=' . $row['kode_barang'] . '>' . $row['kode_barang'] . '</option>';
+                                        echo '<option value=' . $row['id'] . '>' . $row['kode_barang'] . '</option>';
                                     }
                                     ?>
                                 </select>
@@ -133,7 +133,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'stok.php', // Gantikan 'get_nama_barang.php' dengan nama file PHP yang akan memproses permintaan
+                url: 'stok.php',
                 data: {
                     kode_barang: kodeBarang
                 },
