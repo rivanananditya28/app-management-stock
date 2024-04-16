@@ -1,6 +1,23 @@
 <?php
-include 'koneksi.php';
+include '../koneksi.php';
 date_default_timezone_set('Asia/Jakarta');
+
+if (isset($_POST['kode_barang'])) {
+        $kode_barang = $_POST['kode_barang'];
+
+        // Buat query untuk mengambil nama barang berdasarkan kode barang
+        $query = "SELECT nama_barang FROM barang WHERE kode_barang = '$kode_barang'";
+        $result = mysqli_query($conn, $query);
+
+        if (mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_assoc($result);
+                echo $row['nama_barang'];
+        } else {
+                echo "Nama Barang Tidak Ditemukan"; // Atau tindakan lain sesuai kebutuhan Anda
+        }
+} else {
+        echo "Kode Barang tidak diterima"; // Atau tindakan lain sesuai kebutuhan Anda
+}
 
 // Proses transaksi
 if (isset($_POST['submit'])) {

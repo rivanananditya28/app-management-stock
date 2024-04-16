@@ -74,7 +74,7 @@
 
                                     // Ambil data hasil query
                                     while ($row = mysqli_fetch_assoc($sql_data)) {
-                                        echo '<option value=' . $row['id'] . ($row === $selectedValue ? 'selected="selected"' : '') . '>' . $row['kode_lokasi'] . ' - '. $row['deskripsi'].'</option>';
+                                        echo '<option value=' . $row['id'] . ($row === $selectedValue ? 'selected="selected"' : '') . '>' . $row['kode_lokasi'] . ' - ' . $row['deskripsi'] . '</option>';
                                     }
                                     ?>
                                 </select>
@@ -82,11 +82,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="lokasi">Kode Barang :</label>
-                                <input type="text" class="form-control" id="kode_barang" name="kode_barang" required>
+                                <select class="custom-select" name="kode_barang" id="kode_barang" onchange="getNamaBarang()" required>
+                                    <option selected disabled>--Pilih Kode Barang--</option>
+                                    <?php
+                                    // Buat query untuk mengambil data dari database
+                                    $query = "SELECT * FROM barang"; // Gantikan 'barang' dengan nama tabel barang yang sesuai
+                                    $sql_data = mysqli_query($conn, $query);
+
+                                    // Ambil data hasil query
+                                    while ($row = mysqli_fetch_assoc($sql_data)) {
+                                        echo '<option value=' . $row['kode_barang'] . '>' . $row['kode_barang'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="lokasi">Nama Barang :</label>
-                                <input type="text" class="form-control" id="nama_barang" name="nama_barang" required>
+                                <input type="text" class="form-control" id="nama_barang" name="nama_barang" readonly required>
                             </div>
                             <div class="form-group">
                                 <label for="lokasi">Tgl Transaksi :</label>
@@ -115,6 +127,21 @@
                 todayHighlight: true,
             });
         });
+
+        function getNamaBarang() {
+            var kodeBarang = document.getElementById("kode_barang").value;
+
+            $.ajax({
+                type: 'POST',
+                url: 'stok.php', // Gantikan 'get_nama_barang.php' dengan nama file PHP yang akan memproses permintaan
+                data: {
+                    kode_barang: kodeBarang
+                },
+                success: function(response) {
+                    document.getElementById("nama_barang").value = response;
+                }
+            });
+        }
     </script>
 </body>
 
