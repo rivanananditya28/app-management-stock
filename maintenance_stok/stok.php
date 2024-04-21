@@ -236,7 +236,11 @@ if (isset($_POST['submit'])) {
                 $conn->query($sql);
         } else {
                 // Implementasi FIFO
+<<<<<<< HEAD
                 $query = "SELECT id, saldo FROM stok_barang WHERE id_barang = '$kode_barang' AND id_lokasi = '$lokasi' AND saldo > 0 ORDER BY tanggal_masuk ASC";
+=======
+                $query = "SELECT id, saldo FROM stok_barang WHERE id_barang = '$kode_barang' AND id_lokasi = '$lokasi' ORDER BY tanggal_masuk ASC";
+>>>>>>> f13e287075abaff6a7095399edd44c63121074ae
                 $result = mysqli_query($conn, $query);
                 $total_qty = $qty;
                 // $hasil ='';
