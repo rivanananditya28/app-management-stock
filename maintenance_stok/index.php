@@ -3,6 +3,14 @@
 
 <head>
     <?php include '../koneksi.php'; ?>
+    <style>
+        .container {
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
@@ -42,6 +50,10 @@
                     echo $_SESSION['validasi'];
                     unset($_SESSION['validasi']);
                 }
+                if (isset($_SESSION['message'])) {
+                    echo $_SESSION['message'];
+                    unset($_SESSION['message']);
+                }
                 ?>
                 <div class="row">
                     <div class="col-12">
@@ -78,7 +90,6 @@
                                     }
                                     ?>
                                 </select>
-                                <!-- <input type="text" class="form-control" id="lokasi" name="lokasi" required> -->
                             </div>
                             <div class="form-group">
                                 <label for="lokasi">Kode Barang :</label>
@@ -86,7 +97,7 @@
                                     <option selected disabled>--Pilih Kode Barang--</option>
                                     <?php
                                     // Buat query untuk mengambil data dari database
-                                    $query = "SELECT * FROM barang"; // Gantikan 'barang' dengan nama tabel barang yang sesuai
+                                    $query = "SELECT * FROM barang";
                                     $sql_data = mysqli_query($conn, $query);
 
                                     // Ambil data hasil query
@@ -98,15 +109,34 @@
                             </div>
                             <div class="form-group">
                                 <label for="lokasi">Nama Barang :</label>
-                                <input type="text" class="form-control" id="nama_barang" name="nama_barang" readonly required>
+                                <input type="text" class="form-control" id="nama_barang" name="nama_barang" aria-describedby="namaBarangHelp" readonly required>
+                                <small id="namaBarangHelp" class="form-text text-muted">*Otomatis Terisi oleh Sistem</small>
                             </div>
                             <div class="form-group">
                                 <label for="lokasi">Tgl Transaksi :</label>
                                 <input type="text" class="form-control datepicker" id="tgl_transaksi" name="tgl_transaksi" readonly required>
+                                <small id="tglHelp" class="form-text text-muted">*Silahkan klik jika akan mengisi</small>
+
                             </div>
                             <div class="form-group">
                                 <label for="lokasi">Quantity :</label>
-                                <input type="number" class="form-control" id="qty" name="qty" required>
+                                <input type="number" class="form-control" id="qty" name="qty" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lokasi">User :</label>
+                                <select class="custom-select" name="user" id="user" required>
+                                    <option selected disabled>--Pilih User--</option>
+                                    <?php
+                                    // Buat query untuk mengambil data dari database
+                                    $query = "SELECT * FROM user";
+                                    $sql_data = mysqli_query($conn, $query);
+
+                                    // Ambil data hasil query
+                                    while ($row = mysqli_fetch_assoc($sql_data)) {
+                                        echo '<option value=' . $row['id'] . '>' . $row['nama'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary mt-3" value="Submit" name="submit">
